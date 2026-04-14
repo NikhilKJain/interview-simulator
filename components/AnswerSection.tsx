@@ -1,9 +1,6 @@
 "use client";
 
 import { AnswerMode } from "@/lib/types";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface AnswerSectionProps {
   answerMode: AnswerMode;
@@ -26,62 +23,70 @@ export function AnswerSection({
 }: AnswerSectionProps) {
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-1 rounded-lg bg-muted p-1">
+      <div className="flex items-center gap-1 rounded-2xl bg-white/10 p-1">
         <button
           onClick={() => onModeChange("free-form")}
-          className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all ${
+          className={`flex-1 rounded-xl px-3 py-2.5 text-sm font-bold transition-all ${
             answerMode === "free-form"
-              ? "bg-white shadow-sm text-foreground"
-              : "text-muted-foreground hover:text-foreground"
+              ? "bg-white text-[#6C3CE1] shadow-md"
+              : "text-white/60 hover:text-white"
           }`}
         >
-          Free-Form Answer
+          free-form
         </button>
         <button
           onClick={() => onModeChange("multiple-choice")}
-          className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all ${
+          className={`flex-1 rounded-xl px-3 py-2.5 text-sm font-bold transition-all ${
             answerMode === "multiple-choice"
-              ? "bg-white shadow-sm text-foreground"
-              : "text-muted-foreground hover:text-foreground"
+              ? "bg-white text-[#6C3CE1] shadow-md"
+              : "text-white/60 hover:text-white"
           }`}
         >
-          Multiple Choice
+          multiple choice
         </button>
       </div>
 
       {answerMode === "free-form" ? (
         <div className="space-y-2">
-          <Label className="text-sm text-muted-foreground">
-            Write your answer below. For behavioral questions, use the STAR method
-            (Situation, Task, Action, Result).
-          </Label>
-          <Textarea
-            placeholder="Type your answer here..."
+          <p className="text-xs text-white/50">
+            For behavioral questions, use STAR: Situation, Task, Action, Result.
+          </p>
+          <textarea
+            placeholder="type your answer here..."
             value={answerText}
             onChange={(e) => onTextChange(e.target.value)}
-            rows={10}
-            className="resize-none"
+            rows={8}
+            className="w-full rounded-2xl bg-white text-gray-800 placeholder:text-gray-300 p-4 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#6C3CE1]/30 shadow-inner"
           />
-          <div className="text-xs text-muted-foreground text-right">
-            {answerText.length > 0
-              ? `${answerText.split(/\s+/).filter(Boolean).length} words`
-              : ""}
-          </div>
+          {answerText.length > 0 && (
+            <p className="text-xs text-white/40 text-right">
+              {answerText.split(/\s+/).filter(Boolean).length} words
+            </p>
+          )}
         </div>
       ) : (
-        <RadioGroup value={selectedOption} onValueChange={onOptionChange} className="space-y-3">
+        <div className="space-y-2">
           {multipleChoiceOptions.map((option, i) => (
-            <label
+            <button
               key={i}
-              className={`flex items-start gap-3 rounded-lg border p-4 cursor-pointer transition-all hover:bg-muted/50 ${
-                selectedOption === option ? "ring-2 ring-teal-500 bg-teal-50/50" : ""
+              onClick={() => onOptionChange(option)}
+              className={`w-full text-left rounded-2xl p-4 text-sm transition-all ${
+                selectedOption === option
+                  ? "bg-white text-[#6C3CE1] shadow-lg font-semibold ring-2 ring-[#6C3CE1]"
+                  : "bg-white/10 text-white hover:bg-white/20"
               }`}
             >
-              <RadioGroupItem value={option} className="mt-0.5" />
-              <span className="text-sm leading-relaxed">{option}</span>
-            </label>
+              <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold mr-3 ${
+                selectedOption === option
+                  ? "bg-[#6C3CE1] text-white"
+                  : "bg-white/20 text-white/70"
+              }`}>
+                {String.fromCharCode(65 + i)}
+              </span>
+              {option}
+            </button>
           ))}
-        </RadioGroup>
+        </div>
       )}
     </div>
   );

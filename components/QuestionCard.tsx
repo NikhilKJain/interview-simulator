@@ -1,50 +1,44 @@
 "use client";
 
 import { Question } from "@/lib/types";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 interface QuestionCardProps {
   question: Question;
 }
 
-const typeColors: Record<string, string> = {
-  behavioral: "bg-blue-100 text-blue-700",
-  case: "bg-purple-100 text-purple-700",
-  situational: "bg-amber-100 text-amber-700",
+const typeStyles: Record<string, string> = {
+  behavioral: "bg-brand-yellow text-gray-900",
+  case: "bg-brand-green text-white",
+  situational: "bg-brand-blue text-white",
 };
 
-const difficultyColors: Record<string, string> = {
-  easy: "bg-green-100 text-green-700",
-  medium: "bg-yellow-100 text-yellow-700",
-  hard: "bg-red-100 text-red-700",
+const diffStyles: Record<string, string> = {
+  easy: "bg-green-400/20 text-green-300",
+  medium: "bg-yellow-400/20 text-yellow-300",
+  hard: "bg-red-400/20 text-red-300",
 };
 
 export function QuestionCard({ question }: QuestionCardProps) {
   return (
-    <Card className="border-l-4 border-l-teal-500">
-      <CardHeader className="pb-3">
-        <div className="flex items-center gap-2 flex-wrap">
-          <Badge variant="secondary" className={typeColors[question.type]}>
-            {question.type === "behavioral"
-              ? "Behavioral (STAR)"
-              : question.type === "case"
-              ? "Case Study"
-              : "Situational"}
-          </Badge>
-          <Badge variant="secondary" className={difficultyColors[question.difficulty]}>
-            {question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}
-          </Badge>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <p className="text-base leading-relaxed">{question.text}</p>
-        {question.context && (
-          <p className="mt-3 text-sm text-muted-foreground italic border-t pt-3">
-            {question.context}
-          </p>
-        )}
-      </CardContent>
-    </Card>
+    <div className="bg-white rounded-3xl p-6 shadow-lg">
+      <div className="flex items-center gap-2 flex-wrap mb-4">
+        <span className={`text-xs font-bold px-3 py-1 rounded-full ${typeStyles[question.type]}`}>
+          {question.type === "behavioral"
+            ? "behavioral (STAR)"
+            : question.type === "case"
+            ? "case study"
+            : "situational"}
+        </span>
+        <span className={`text-xs font-bold px-3 py-1 rounded-full bg-gray-100 text-gray-600`}>
+          {question.difficulty}
+        </span>
+      </div>
+      <p className="text-base leading-relaxed text-gray-800 font-medium">{question.text}</p>
+      {question.context && (
+        <p className="mt-4 text-sm text-gray-500 italic border-t border-gray-100 pt-3">
+          {question.context}
+        </p>
+      )}
+    </div>
   );
 }

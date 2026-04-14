@@ -2,8 +2,6 @@
 
 import { QuestionCategory, Difficulty } from "@/lib/types";
 import { CATEGORIES, DIFFICULTIES } from "@/lib/constants";
-import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 
 interface CategorySelectorProps {
   category: QuestionCategory;
@@ -12,6 +10,18 @@ interface CategorySelectorProps {
   onDifficultyChange: (difficulty: Difficulty) => void;
 }
 
+const categoryColors: Record<QuestionCategory, string> = {
+  behavioral: "bg-brand-yellow text-gray-900",
+  case: "bg-brand-green text-white",
+  situational: "bg-brand-blue text-white",
+};
+
+const categoryInactiveColors: Record<QuestionCategory, string> = {
+  behavioral: "bg-yellow-100 text-gray-600",
+  case: "bg-green-100 text-gray-600",
+  situational: "bg-blue-100 text-gray-600",
+};
+
 export function CategorySelector({
   category,
   difficulty,
@@ -19,46 +29,45 @@ export function CategorySelector({
   onDifficultyChange,
 }: CategorySelectorProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="space-y-3">
-        <Label className="text-sm font-medium">Question Type</Label>
-        <div className="grid gap-3">
+        <label className="text-xs font-bold text-white/70 uppercase tracking-wide">question type</label>
+        <div className="grid gap-2">
           {CATEGORIES.map((cat) => (
-            <Card
+            <button
               key={cat.value}
-              className={`cursor-pointer transition-all hover:shadow-md ${
-                category === cat.value
-                  ? "ring-2 ring-teal-500 bg-teal-50/50"
-                  : "hover:bg-muted/50"
-              }`}
               onClick={() => onCategoryChange(cat.value)}
+              className={`rounded-2xl p-4 text-left transition-all ${
+                category === cat.value
+                  ? categoryColors[cat.value]
+                  : categoryInactiveColors[cat.value]
+              }`}
             >
-              <CardContent className="p-4">
-                <div className="font-medium text-sm">{cat.label}</div>
-                <div className="text-xs text-muted-foreground mt-1">{cat.description}</div>
-              </CardContent>
-            </Card>
+              <div className="font-bold text-sm">{cat.label}</div>
+              <div className={`text-xs mt-0.5 ${
+                category === cat.value ? "opacity-80" : "opacity-60"
+              }`}>
+                {cat.description}
+              </div>
+            </button>
           ))}
         </div>
       </div>
 
       <div className="space-y-3">
-        <Label className="text-sm font-medium">Difficulty Level</Label>
+        <label className="text-xs font-bold text-white/70 uppercase tracking-wide">difficulty</label>
         <div className="grid grid-cols-3 gap-2">
           {DIFFICULTIES.map((diff) => (
             <button
               key={diff.value}
               onClick={() => onDifficultyChange(diff.value)}
-              className={`rounded-lg border p-3 text-center transition-all hover:shadow-sm ${
+              className={`rounded-2xl p-3 text-center transition-all ${
                 difficulty === diff.value
-                  ? "border-teal-500 bg-teal-50 text-teal-700"
-                  : "border-border hover:bg-muted/50"
+                  ? "bg-white text-[#6C3CE1] shadow-lg"
+                  : "bg-white/10 text-white hover:bg-white/20"
               }`}
             >
-              <div className="font-medium text-sm">{diff.label}</div>
-              <div className="text-[11px] text-muted-foreground mt-0.5 leading-tight">
-                {diff.description}
-              </div>
+              <div className="font-bold text-sm">{diff.label}</div>
             </button>
           ))}
         </div>

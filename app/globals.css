@@ -128,3 +128,30 @@
     @apply font-sans;
   }
 }
+
+@layer utilities {
+  .bg-brand-purple {
+    background: linear-gradient(135deg, #6C3CE1 0%, #4A1DB5 100%);
+  }
+  .bg-brand-yellow {
+    background-color: #FFD93D;
+  }
+  .bg-brand-green {
+    background-color: #2DD4A0;
+  }
+  .bg-brand-mint {
+    background-color: #A7F3D0;
+  }
+  .bg-brand-coral {
+    background-color: #FF6B6B;
+  }
+  .bg-brand-blue {
+    background-color: #60A5FA;
+  }
+  .bg-brand-orange {
+    background-color: #FBBF24;
+  }
+  .text-brand-purple {
+    color: #6C3CE1;
+  }
+}
