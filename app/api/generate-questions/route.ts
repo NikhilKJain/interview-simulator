@@ -39,7 +39,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const parsed = JSON.parse(content.text);
+    const cleanedText = content.text.replace(/^```(?:json)?\s*\n?/i, "").replace(/\n?```\s*$/i, "").trim();
+    const parsed = JSON.parse(cleanedText);
     const questions: Question[] = parsed.questions.map(
       (q: Omit<Question, "id">, i: number) => ({
         ...q,

@@ -40,7 +40,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const feedback: FeedbackResult = JSON.parse(content.text);
+    const cleanedText = content.text.replace(/^```(?:json)?\s*\n?/i, "").replace(/\n?```\s*$/i, "").trim();
+    const feedback: FeedbackResult = JSON.parse(cleanedText);
 
     return Response.json({ success: true, data: feedback });
   } catch (error) {
